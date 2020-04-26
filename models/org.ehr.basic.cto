@@ -1,0 +1,144 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Electronic Health Record for Patient.
+ */
+
+namespace org.ehr.basic 
+
+// Hospitals used for sample data
+enum Hospitals {
+  o APOLLO
+  o REGENCY
+  o KMC
+  o HALLETT
+}
+
+// Disease
+enum DiseaseCategory{
+  o EYE
+  o EAR
+  o HEART
+  o SKIN
+  o MISC
+}
+
+// Tests
+enum Tests {
+  o LFT
+  o CBC
+  o TSH
+  o URIANALYSIS
+}
+
+// Transaction for Appointment
+transaction confirmAppointment {
+  --> Patient patient
+  --> Doctor doctor
+  --> Appointment appointment
+}
+
+// Transaction for Buying Medicine
+transaction buyMedicine {
+  --> Patient patient
+  --> Chemist chemist
+}
+
+// Transaction for Lab Test
+transaction labTest {
+  --> Patient patient
+  --> PathLab pathlab
+}
+
+// Transaction for Consultation 
+transaction consultation {
+  --> Patient patient
+  --> Doctor doctor
+  --> Appointment appointment
+  --> Prescription prescription
+  --> MedPrescription medicines
+}
+
+// Appointment is an asset for application 
+asset Appointment identified by appointmentId{
+  o String appointmentId						
+  o String status														
+  o String description							
+  o DiseaseCategory group						
+  --> Doctor doctor optional					
+  --> Patient patient optional							
+  o Double consultationFee optional				
+}
+
+// Receipt is an asset for the application
+asset Receipt identified by receiptID {
+  o String receiptID						
+  o String providedBy						
+  o String providedTo						
+  o Double amountPaid						
+  o DateTime curTime						
+}
+
+// Medical prescription is an asset for the application 
+asset MedPrescription identified by medPrescriptionId {
+  o String medPrescriptionId						
+  o Long quantity								
+  o String instruction						
+  o Long dosage							
+}
+
+// Prescription is an asset
+asset Prescription identified by prescriptionId {
+  o String prescriptionId							
+  o Boolean isMedPrescribed							
+  o Medicines[] meds optional					
+  o Boolean isTestPrescribed						
+  o Tests [] tests optional								
+  --> Appointment appointment															
+}
+
+// Citizen is a prime entity and every sub entity inherits properties of Citizen
+abstract participant Citizen identified by id {
+  o String id									
+  o String firstName							
+  o String lastName								
+}
+
+// Patient acts as a participant over the network
+participant Patient extends Citizen {
+  o Double previousDebt 								
+  o DiseaseCategory disease						
+}
+
+// Doctor acts as a participant over the network
+participant Doctor extends Citizen {
+  o Hospitals hospital							
+  o Double consultationFee						
+  o DiseaseCategory speciality					
+}
+
+// Chemist acts as a participant over the network
+participant Chemist extends Citizen {
+  o Double medCost							
+}
+
+// Path Lab acts as a participant over the network 
+participant PathLab extends Citizen {
+  o String labName								
+  o Double testCost									
+}
+
+
+
