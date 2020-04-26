@@ -1,0 +1,151 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+rule SystemACL {
+    description: "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+/**
+ * Sample access control list.
+ */
+ rule PatientRead{
+    description: "Patient allowed to read all the assets present in the application"
+    participant: "org.ehr.basic.Patient"
+    operation: READ
+    resource: "org.ehr.basic.*"
+    action: ALLOW
+}
+rule DocPrescriptionCreate{
+    description: "Only Doctor is allowed to create the Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: CREATE
+    resource: "org.ehr.basic.Prescription"
+    action: ALLOW
+}
+rule DocPrescriptionRead{
+    description: "Doctor is allowed to read Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: READ
+    resource: "org.ehr.basic.Prescription"
+    action: ALLOW
+}
+rule DocAppointmentCreate{
+    description: "Doctor is allowed to create the Appointment"
+    participant: "org.ehr.basic.Doctor"
+    operation: CREATE
+    resource: "org.ehr.basic.Appointment"
+    action: ALLOW
+}
+rule DocMedprescriptionCreate{
+    description: "Only Doctor is allowed to create Medical Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: CREATE
+    resource: "org.ehr.basic.MedPrescription"
+    action: ALLOW
+}
+rule DocMedprescriptionRead{
+    description: "Doctor is allowed to read the Medical Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: READ
+    resource: "org.ehr.basic.MedPrescription"
+    action: ALLOW
+}
+rule DocMedprescriptionUpdate{
+    description: "Doctor is also allowed to update Medical Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: UPDATE
+    resource: "org.ehr.basic.MedPrescription"
+    action: ALLOW
+}
+rule ChemRecieptCreate{
+    description: "Chemist is allowed to generate Receipt"
+    participant: "org.ehr.basic.Chemist"
+    operation: CREATE
+    resource: "org.ehr.basic.Receipt"
+    action: ALLOW
+}
+rule PathPrescriptionRead{
+    description: "PathLab is allowed to read Prescription"
+    participant: "org.ehr.basic.PathLab"
+    operation: READ
+    resource: "org.ehr.basic.Prescription"
+    action: ALLOW
+}
+rule DocPrescriptionUpdate{
+    description: "Doctor is also allowed to update the Prescription"
+    participant: "org.ehr.basic.Doctor"
+    operation: UPDATE
+    resource: "org.ehr.basic.Prescription"
+    action: ALLOW
+}
+rule ChemMedprescriptionRead{
+    description: "Chemist is allowed to read the Medical Prescription"
+    participant: "org.ehr.basic.Chemist"
+    operation: READ
+    resource: "org.ehr.basic.MedPrescription"
+    action: ALLOW
+}
+rule PathRecieptCreate{
+    description: "PathLab is allowed to create Receipt"
+    participant: "org.ehr.basic.PathLab"
+    operation: CREATE
+    resource: "org.ehr.basic.Receipt"
+    action: ALLOW
+}
+rule DocAppointmentRead{
+    description: "Doctor is allowed to read Appointment"
+    participant: "org.ehr.basic.Doctor"
+    operation: READ
+    resource: "org.ehr.basic.Appointment"
+    action: ALLOW
+}
+rule DocAppointmentUpdate{
+    description: "Doctor is allowed to update Appointment"
+    participant: "org.ehr.basic.Doctor"
+    operation: UPDATE
+    resource: "org.ehr.basic.Appointment"
+    action: ALLOW
+}
+rule ChemRecieptRead{
+    description: "Chemist is allowed to read Receipt"
+    participant: "org.ehr.basic.Chemist"
+    operation: READ
+    resource: "org.ehr.basic.Receipt"
+    action: ALLOW
+}
+rule PathRecieptRead{
+    description: "Only PathLab is allowed to read"
+    participant: "org.ehr.basic.PathLab"
+    operation: READ
+    resource: "org.ehr.basic.Receipt"
+    action: ALLOW
+}
