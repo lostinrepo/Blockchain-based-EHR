@@ -43,6 +43,7 @@ enum Tests {
   o URIANALYSIS
 }
 
+
 // Transaction for Appointment
 transaction confirmAppointment {
   --> Patient patient
@@ -67,9 +68,17 @@ transaction consultation {
   --> Patient patient
   --> Doctor doctor
   --> Appointment appointment
+}
+
+// Transaction for Insurance Claim
+transaction insuranceClaim {
+  --> Patient patient
+  --> InsuranceProvider inp
+  --> Insurance insurance
   --> Prescription prescription
   --> MedPrescription medicines
 }
+
 
 // Appointment is an asset for application 
 asset Appointment identified by appointmentId{
@@ -109,6 +118,14 @@ asset Prescription identified by prescriptionId {
   --> Appointment appointment															
 }
 
+// Insurance is an asset
+asset Insurance identified by insuranceId {
+  o String insuranceId										
+  --> Patient patient											
+  --> InsuranceProvider inp 
+  o Double insuranceAmount						
+}
+
 // Citizen is a prime entity and every sub entity inherits properties of Citizen
 abstract participant Citizen identified by id {
   o String id									
@@ -139,6 +156,13 @@ participant PathLab extends Citizen {
   o String labName								
   o Double testCost									
 }
+
+// Path Lab acts as a participant over the network 
+participant InsuranceProvider extends Citizen {						
+  o Double insurancePrice									
+}
+
+
 
 
 
